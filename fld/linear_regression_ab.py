@@ -1,4 +1,4 @@
-#calculation of a,b parameters for linear regression
+#calculation of a,b parameters for linear regression ( y = a*x + b )
 input = [[1,2], [2,4], [3,6], [4, 8], [5, 10],  [6, 12], [7, 14], [8, 16], [9, 18]]
 
 def LR(input):
