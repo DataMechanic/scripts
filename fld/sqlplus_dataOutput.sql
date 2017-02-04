@@ -1,5 +1,6 @@
 
 --use sqlplus to write sql output to a file:
+
 --cmd
 --sqlplus <user_name>/<password>@<hostname>:<port>/<database>
 set linesize 1000 --max line width
@@ -10,3 +11,4 @@ select * from hr.employees;
 --or run script from file
 @d:\scripts\orcl_table_select.sql
 spool off
+exit
