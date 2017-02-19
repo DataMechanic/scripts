@@ -1,0 +1,57 @@
+<html>
+<head>
+<!--
+	jQuery marks selected rows;
+	if click on country - will be selected only one row;
+	if click on continent - will be selected all countries of the continent;
+	previous selection is unmarked;
+-->
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+<style>
+	table, th, td {
+		border: 1px solid black;
+		border-collapse: collapse;
+	}
+	th, td {
+		padding: 5px;
+		text-align: left;    
+	}
+	.selected {
+		color: red;
+	}
+	.continent {
+		color: black;
+	}
+</style>
+</head>
+<body>
+
+<div id="tbl">
+<table>
+<thead>
+<tr><th rowspan="2">Continent</th><th rowspan="2">Country</th><th colspan="2">2017</th></tr>
+<tr><th>S1 2017</th><th>S2 2017</th></tr>
+</thead>
+<tr><td rowspan="4" onclick="javascript:fA(this)" class="continent">Europe</td><td onclick="javascript:fA(this)">France</td><td>12</td><td>14</td></tr>
+<tr><td onclick="javascript:fA(this)">Italy</td><td>10</td><td>12</td></tr>
+<tr><td onclick="javascript:fA(this)">Germany</td><td>15</td><td>17</td></tr>
+<tr><td onclick="javascript:fA(this)">Spain</td><td>10</td><td>8</td></tr>
+<tr><td rowspan="2" onclick="javascript:fA(this)" class="continent">North America</td><td onclick="javascript:fA(this)">Canada</td><td>14</td><td>16</td></tr>
+<tr><td onclick="javascript:fA(this)">USA</td><td>11</td><td>15</td></tr>
+<tr><td rowspan="3" onclick="javascript:fA(this)" class="continent">Asia</td><td onclick="javascript:fA(this)">Japan</td><td>17</td><td>16</td></tr>
+<tr><td onclick="javascript:fA(this)">China</td><td>13</td><td>14</td></tr>
+<tr><td onclick="javascript:fA(this)">India</td><td>18</td><td>15</td></tr>
+</table>
+</div>
+
+<script>
+function fA(cell){
+$(cell).parent().parent().find('tr').removeClass('selected');
+$(cell).parent().addClass('selected');
+if($(cell).attr('rowspan')){
+	$(cell).parent().nextAll().slice(0,$(cell).attr('rowspan')-1).addClass('selected');
+	};
+};
+</script>
+</body>
+</html>
