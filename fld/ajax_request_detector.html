@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html>
+<head></head>
+<body>
+<div>
+	<input type="button" onclick="run_XMLHttpRerquest()" value="run_XMLHttpRerquest"/>
+</div>
+<br>
+<div id="d1">GET request to be here</div>
+<br>
+<div id="d2">Detected method to be here</div>
+
+<script>
+/**
+  Detection of Ajax event;
+  When GET/POST request is made, ajaxDetector.callback is called 
+  and it's properties become available.
+  http://stackoverflow.com/questions/3596583/javascript-detect-an-ajax-event
+*/
+
+//REQUEST
+function run_XMLHttpRerquest() {
+  var rq = new XMLHttpRequest();
+  rq.onreadystatechange = function() {
+    if (this.readyState == 4 && this.status == 200){
+      document.getElementById('d1').innerHTML = this.responseText;
+    };
+  };
+  rq.open('GET', 'https://httpbin.org/get', true);
+  rq.send();
+};
+
+// REQUEST DETECTOR ->
+var ajaxDetector = new Object();
+ajaxDetector.tempOpen = XMLHttpRequest.prototype.open;
+ajaxDetector.tempSend = XMLHttpRequest.prototype.send;
+ajaxDetector.callback = function () {
+  // this.method :the ajax method used
+  // this.url    :the url of the requested script (including query string, if any) (urlencoded) 
+  // this.data   :the data sent, if any ex: foo=bar&a=b (urlencoded)
+  
+  // console.log(this.method);
+  document.getElementById('d2').innerHTML = this.method;
+}
+
+XMLHttpRequest.prototype.open = function(a,b) {
+  if (!a) var a='';
+  if (!b) var b='';
+  ajaxDetector.tempOpen.apply(this, arguments);
+  ajaxDetector.method = a;  
+  ajaxDetector.url = b;
+  if (a.toLowerCase() == 'get') {
+    ajaxDetector.data = b.split('?');
+    ajaxDetector.data = ajaxDetector.data[1];
+  }
+};
+XMLHttpRequest.prototype.send = function(a,b) {
+  if (!a) var a='';
+  if (!b) var b='';
+  ajaxDetector.tempSend.apply(this, arguments);
+  if(ajaxDetector.method.toLowerCase() == 'post') ajaxDetector.data = a;
+  ajaxDetector.callback();
+};
+// <--
+</script>
+</body>
+</html>
